@@ -9,13 +9,5 @@
 sweep:
   profile: smoke
   pcie_check: true
-  clock_check: true
   temperature_check: true
-  power_check: true
-  ecc_check: true
-  retired_pages_check: true
-  firmware_version_check: true
-  cuda_device_check: true
-  cuda_context_check: true
   dmesg_check: true
-  output_format: csv

@@ -85,7 +85,7 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
 
 ## 1. Overview
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches. output_format: csv Sweep dimensions: pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check.
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: pcie_check, temperature_check, dmesg_check.
 
 ## 2. What It Validates
 
@@ -119,7 +119,7 @@ The tables below describe the machine used to generate the reference results. Th
 
 ### System
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches.
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ### GPU
 
@@ -135,7 +135,7 @@ Ubuntu 24.04 / NVIDIA / Bash, SQLite, Python, PyYAML, nvidia-smi
 | ROCm | CUDA 12.6 (nvcc 12.6.85 preinstalled in the container; setup installs 12.8 only when nvcc is missing). Driver 580.159.04 reports CUDA 13.0 |
 | rocBLAS | N/A - cuBLAS not used |
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches.
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ## 6. Installation
 

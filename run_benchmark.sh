@@ -46,16 +46,8 @@ Validation and logging:
 
 Workload options:
   --pcie-check <value>            Override pcie_check
-  --clock-check <value>            Override clock_check
   --temperature-check <value>            Override temperature_check
-  --power-check <value>            Override power_check
-  --ecc-check <value>            Override ecc_check
-  --retired-pages-check <value>            Override retired_pages_check
-  --firmware-version-check <value>            Override firmware_version_check
-  --cuda-device-check <value>            Override cuda_device_check
-  --cuda-context-check <value>            Override cuda_context_check
   --dmesg-check <value>            Override dmesg_check
-  --output-format <value>            Override output_format
 
 Information:
   --specification               Print this workload's specification and exit
@@ -90,16 +82,8 @@ LOG_LEVEL_VALUE="INFO"
 OUTPUT_FORMAT=""
 SAVE_OPTIONS_FILE=""
 PCIE_CHECK=""
-CLOCK_CHECK=""
 TEMPERATURE_CHECK=""
-POWER_CHECK=""
-ECC_CHECK=""
-RETIRED_PAGES_CHECK=""
-FIRMWARE_VERSION_CHECK=""
-CUDA_DEVICE_CHECK=""
-CUDA_CONTEXT_CHECK=""
 DMESG_CHECK=""
-OUTPUT_FORMAT=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -121,16 +105,8 @@ while [[ $# -gt 0 ]]; do
     --output-format) OUTPUT_FORMAT="${2:-}"; shift 2 ;;
     --save-options-file) SAVE_OPTIONS_FILE="${2:-}"; shift 2 ;;
     --pcie-check) PCIE_CHECK="${2:-}"; shift 2 ;;
-    --clock-check) CLOCK_CHECK="${2:-}"; shift 2 ;;
     --temperature-check) TEMPERATURE_CHECK="${2:-}"; shift 2 ;;
-    --power-check) POWER_CHECK="${2:-}"; shift 2 ;;
-    --ecc-check) ECC_CHECK="${2:-}"; shift 2 ;;
-    --retired-pages-check) RETIRED_PAGES_CHECK="${2:-}"; shift 2 ;;
-    --firmware-version-check) FIRMWARE_VERSION_CHECK="${2:-}"; shift 2 ;;
-    --cuda-device-check) CUDA_DEVICE_CHECK="${2:-}"; shift 2 ;;
-    --cuda-context-check) CUDA_CONTEXT_CHECK="${2:-}"; shift 2 ;;
     --dmesg-check) DMESG_CHECK="${2:-}"; shift 2 ;;
-    --output-format) OUTPUT_FORMAT="${2:-}"; shift 2 ;;
     --help|--specification|--matrix-definition) shift ;;
     *) die "Unknown option: $1" ;;
   esac
@@ -170,32 +146,16 @@ PY
 }
 
 PCIE_CHECK="${PCIE_CHECK:-$(yaml_get pcie_check)}"
-CLOCK_CHECK="${CLOCK_CHECK:-$(yaml_get clock_check)}"
 TEMPERATURE_CHECK="${TEMPERATURE_CHECK:-$(yaml_get temperature_check)}"
-POWER_CHECK="${POWER_CHECK:-$(yaml_get power_check)}"
-ECC_CHECK="${ECC_CHECK:-$(yaml_get ecc_check)}"
-RETIRED_PAGES_CHECK="${RETIRED_PAGES_CHECK:-$(yaml_get retired_pages_check)}"
-FIRMWARE_VERSION_CHECK="${FIRMWARE_VERSION_CHECK:-$(yaml_get firmware_version_check)}"
-CUDA_DEVICE_CHECK="${CUDA_DEVICE_CHECK:-$(yaml_get cuda_device_check)}"
-CUDA_CONTEXT_CHECK="${CUDA_CONTEXT_CHECK:-$(yaml_get cuda_context_check)}"
 DMESG_CHECK="${DMESG_CHECK:-$(yaml_get dmesg_check)}"
-OUTPUT_FORMAT="${OUTPUT_FORMAT:-$(yaml_get output_format)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-$(yaml_get output_format)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-csv}"
 
 BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
 [[ "${VALIDATE}" -eq 1 ]] && BENCHMARK_RUN_COMMAND+=" --validate"
 [[ -n "${PCIE_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --pcie-check $(printf %q "${PCIE_CHECK}")"
-[[ -n "${CLOCK_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --clock-check $(printf %q "${CLOCK_CHECK}")"
 [[ -n "${TEMPERATURE_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --temperature-check $(printf %q "${TEMPERATURE_CHECK}")"
-[[ -n "${POWER_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --power-check $(printf %q "${POWER_CHECK}")"
-[[ -n "${ECC_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --ecc-check $(printf %q "${ECC_CHECK}")"
-[[ -n "${RETIRED_PAGES_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --retired-pages-check $(printf %q "${RETIRED_PAGES_CHECK}")"
-[[ -n "${FIRMWARE_VERSION_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --firmware-version-check $(printf %q "${FIRMWARE_VERSION_CHECK}")"
-[[ -n "${CUDA_DEVICE_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --cuda-device-check $(printf %q "${CUDA_DEVICE_CHECK}")"
-[[ -n "${CUDA_CONTEXT_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --cuda-context-check $(printf %q "${CUDA_CONTEXT_CHECK}")"
 [[ -n "${DMESG_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --dmesg-check $(printf %q "${DMESG_CHECK}")"
-[[ -n "${OUTPUT_FORMAT}" ]] && BENCHMARK_RUN_COMMAND+=" --output-format $(printf %q "${OUTPUT_FORMAT}")"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
 
 HOSTNAME_VALUE="$(hostname -s 2>/dev/null || hostname)"
@@ -239,16 +199,8 @@ run_collection() {
   fi
   grep -q -- '--output-format' <<<"${help}" && collect_args+=(--output-format "${OUTPUT_FORMAT}")
   grep -q -- '--pcie-check' <<<"${help}" && collect_args+=(--pcie-check "${PCIE_CHECK}")
-  grep -q -- '--clock-check' <<<"${help}" && collect_args+=(--clock-check "${CLOCK_CHECK}")
   grep -q -- '--temperature-check' <<<"${help}" && collect_args+=(--temperature-check "${TEMPERATURE_CHECK}")
-  grep -q -- '--power-check' <<<"${help}" && collect_args+=(--power-check "${POWER_CHECK}")
-  grep -q -- '--ecc-check' <<<"${help}" && collect_args+=(--ecc-check "${ECC_CHECK}")
-  grep -q -- '--retired-pages-check' <<<"${help}" && collect_args+=(--retired-pages-check "${RETIRED_PAGES_CHECK}")
-  grep -q -- '--firmware-version-check' <<<"${help}" && collect_args+=(--firmware-version-check "${FIRMWARE_VERSION_CHECK}")
-  grep -q -- '--cuda-device-check' <<<"${help}" && collect_args+=(--cuda-device-check "${CUDA_DEVICE_CHECK}")
-  grep -q -- '--cuda-context-check' <<<"${help}" && collect_args+=(--cuda-context-check "${CUDA_CONTEXT_CHECK}")
   grep -q -- '--dmesg-check' <<<"${help}" && collect_args+=(--dmesg-check "${DMESG_CHECK}")
-  grep -q -- '--output-format' <<<"${help}" && collect_args+=(--output-format "${OUTPUT_FORMAT}")
 
   printf -v collect_cmd '%q ' "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}"
   echo "[RUN] ${collect_cmd}"
