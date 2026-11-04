@@ -2,15 +2,11 @@
 
 ## Execution Description
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: pcie_check, temperature_check, dmesg_check.
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: no swept parameters.
 
 ## Parameters
 
-| Parameter | CLI Flag | Tested Values | Default | Description |
-| --- | --- | --- | --- | --- |
-| pcie_check | `--pcie-check` | smoke=true, baseline=true, extended=true | true | From Parameter list; see Execution Description With Parameters. |
-| temperature_check | `--temperature-check` | smoke=true, baseline=true, extended=true | true | From Parameter list; see Execution Description With Parameters. |
-| dmesg_check | `--dmesg-check` | smoke=true, baseline=true, extended=true | true | From Parameter list; see Execution Description With Parameters. |
+No workbook parameters are populated for this workload.
 
 ## Invocation
 
@@ -35,11 +31,11 @@ sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devi
 
 ## Framework
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ## Installation and Execution Summary
 
-Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health. CLI --pcie-check/--ecc-check and similar flags are ignored
+Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health
 
 ## Platform Portability
 
@@ -95,10 +91,10 @@ bash run_benchmark.sh --profile extended --validate
 2. `run.error_message` is NULL.
 3. `started_at` and `finished_at` are valid ISO-8601 UTC strings.
 4. All required aggregate metrics in `runs` are non-NULL and finite.
-5. All required aggregate metrics are physically sensible (positive values). Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+5. All required aggregate metrics are physically sensible (positive values). Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 6. At least 2 sample rows exist for the latest `run_id` (sweep coverage).
 7. No sample has `status = 'error'`.
-8. Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+8. Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ### Baseline / Threshold configuration (`config/benchmark_config.yaml`)
 

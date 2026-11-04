@@ -15,7 +15,7 @@ This PRD.md section is populated from benchmark_specification.json, which is the
 NVIDIA System Validation (clocks, temperature, etc.)
 
 ## Execution Summary (Run and Measure)
-Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health. CLI --pcie-check/--ecc-check and similar flags are ignored
+Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health
 
 ## Main Goal
 Analyze GPU CUDA runtime environment health

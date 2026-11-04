@@ -60,7 +60,7 @@ To move to the newest published release later: `cd /opt/benchmarks && git pull &
 
 ## Suite Tools
 
-Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://github.com/garys-gpu-benchmarks/gpu-bench-suite) work across the whole bundle. `run_benchmark_suite.sh` and `show_metrics.sh` are also at the top of every bundle (and the generator's remote copy installs `show_metrics.sh` at `/opt/benchmarks`); each script prints full usage with `--help`.
+Four operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://github.com/garys-gpu-benchmarks/gpu-bench-suite) work across the whole bundle. All four are also at the top of every bundle, and `show_metrics.sh` is at the top of this repository too; each script prints full usage with `--help`.
 
 - **`run_benchmark_suite.sh`** (on the GPU host) — runs the installed workloads one after another for each profile, writes one log to `/opt/benchmarks/benchmark_suite_log/`, and ends with a pass/fail summary.
   ```bash
@@ -70,22 +70,29 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
   ./run_benchmark_suite.sh --smoke                      # every workload, smoke profile
   ./run_benchmark_suite.sh -r 20                        # soak: everything, 20 times
   ```
-- **`get_remote_info.sh`** (on your laptop; Git Bash on Windows) — over one SSH connection, copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`.
+- **`get_benchmark_results.sh`** (on your laptop with `--host`, or on the GPU host without it) — copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`. With `--host` it collects over one SSH connection; without `--host` it collects from the machine it runs on.
   ```bash
   git clone https://github.com/garys-gpu-benchmarks/gpu-bench-suite && cd gpu-bench-suite
-  ./scripts/get_remote_info.sh --host 203.0.113.10              # root@host, port 22
-  ./scripts/get_remote_info.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
+  ./scripts/get_benchmark_results.sh --host 203.0.113.10        # root@host, port 22
+  ./scripts/get_benchmark_results.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
+  /opt/benchmarks/get_benchmark_results.sh -o ~/results     # on the GPU host: this machine
   ```
-- **`show_metrics.sh`** (laptop or GPU host) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means. On the GPU host it is `/opt/benchmarks/show_metrics.sh`.
+- **`show_ledger_runs.sh`** (on your laptop with `--host`, or on the GPU host without it) — prints one line per run in the runtime ledger (workload, profile, runtime, exit code) and copies nothing. `--failed` lists only runs that did not exit 0.
   ```bash
-  cd /opt/benchmarks && ./show_metrics.sh 202             # on the GPU host
+  ./scripts/show_ledger_runs.sh --host 203.0.113.10           # from your laptop
+  /opt/benchmarks/show_ledger_runs.sh --failed            # on the GPU host
+  ```
+- **`show_metrics.sh`** (laptop or GPU host; included in this repository) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means.
+  ```bash
+  ./show_metrics.sh 202                                        # from this repository, on the GPU host
+  cd /opt/benchmarks && ./show_metrics.sh 202             # or from the bundle
   ./scripts/show_metrics.sh 202 --host 203.0.113.10            # over SSH, all profiles
   ./scripts/show_metrics.sh 202 --baseline --file RUNTIME_LEDGERS/<ledger>.csv
   ```
 
 ## 1. Overview
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: pcie_check, temperature_check, dmesg_check.
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: no swept parameters.
 
 ## 2. What It Validates
 
@@ -119,7 +126,7 @@ The tables below describe the machine used to generate the reference results. Th
 
 ### System
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ### GPU
 
@@ -135,7 +142,7 @@ Ubuntu 24.04 / NVIDIA / Bash, SQLite, Python, PyYAML, nvidia-smi
 | ROCm | CUDA 12.6 (nvcc 12.6.85 preinstalled in the container; setup installs 12.8 only when nvcc is missing). Driver 580.159.04 reports CUDA 13.0 |
 | rocBLAS | N/A - cuBLAS not used |
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
 
 ## 6. Installation
 

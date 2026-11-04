@@ -25,6 +25,11 @@
     "value": "sys-bench-nvidia-gpu-health-validation-ubu2404"
   },
   {
+    "field_name": "Repo Directory Name",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "202-sys-bench-nvidia-gpu-health-validation-ubu2404"
+  },
+  {
     "field_name": "Main Goal",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "Analyze GPU CUDA runtime environment health"
@@ -47,17 +52,17 @@
   {
     "field_name": "Command Execution Details and Purpose",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health. CLI --pcie-check/--ecc-check and similar flags are ignored"
+    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health"
   },
   {
     "field_name": "Command Methodology",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Sample nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse temperature, PCIe width and speed, visible device count, and Xid matches. CLI pcie-check and ecc-check flags are ignored. DCGM and deviceQuery are not run"
+    "value": "Sample nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse temperature, PCIe width and speed, visible device count, and Xid matches. DCGM and deviceQuery are not run"
   },
   {
     "field_name": "Execution Description With Parameters",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Yaml flags pcie_check, clock_check, temperature_check, power_check, ecc_check, retired_pages_check, firmware_version_check, cuda_device_check, cuda_context_check, and dmesg_check are documented but ignored by the collector. Always records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches"
+    "value": "Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches"
   },
   {
     "field_name": "Execution Domain",
@@ -102,17 +107,17 @@
   {
     "field_name": "run_benchmark Command Plus Options for Smoke Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --smoke --validate --pcie-check true --temperature-check true --dmesg-check true"
+    "value": "bash run_benchmark.sh --smoke --validate"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Baseline Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --baseline --validate --pcie-check true --temperature-check true --dmesg-check true"
+    "value": "bash run_benchmark.sh --baseline --validate"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Extended Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --extended --validate --pcie-check true --temperature-check true --dmesg-check true"
+    "value": "bash run_benchmark.sh --extended --validate"
   },
   {
     "field_name": "Output Fields / Metrics to Parse",
@@ -227,17 +232,17 @@
   {
     "field_name": "Parameter_01",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "pcie_check"
+    "value": "-"
   },
   {
     "field_name": "Parameter_02",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "temperature_check"
+    "value": "-"
   },
   {
     "field_name": "Parameter_03",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "dmesg_check"
+    "value": "-"
   },
   {
     "field_name": "Parameter_04",
@@ -367,7 +372,7 @@
   {
     "field_name": "Installation and Execution Summary",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health. CLI --pcie-check/--ecc-check and similar flags are ignored"
+    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health"
   },
   {
     "field_name": "Workload Command Line Executable",
@@ -387,7 +392,7 @@
   {
     "field_name": "Execution Summary (Run and Measure)",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health. CLI --pcie-check/--ecc-check and similar flags are ignored"
+    "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health"
   },
   {
     "field_name": "nVidia Porting Instructions (Reference Only)",
@@ -403,15 +408,5 @@
     "field_name": "Model Context Protocols",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "None"
-  },
-  {
-    "field_name": "Profile Parameter Values",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Parameters_SmokeBaselineExtend",
-    "value": "{\"pcie_check\": {\"smoke\": \"true\", \"baseline\": \"true\", \"extended\": \"true\", \"notes\": \"best-effort: boolean probes only; H100 baseline 2s class, 3-4 min not reachable. Knobs unchanged.\"}, \"temperature_check\": {\"smoke\": \"true\", \"baseline\": \"true\", \"extended\": \"true\", \"notes\": \"\"}, \"dmesg_check\": {\"smoke\": \"true\", \"baseline\": \"true\", \"extended\": \"true\", \"notes\": \"\"}}"
-  },
-  {
-    "field_name": "Profile Command Authorship",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Parameters_SmokeBaselineExtend",
-    "value": "Workload_Definitions run_benchmark command columns are generated from Parameters_SmokeBaselineExtend. Author parameter values on the Parameters_SmokeBaselineExtend sheet only. Do not invent smoke/baseline/extended sweep numbers. Sweep/list flags in the command cells are documentary; omit those flags so config/benchmark_config.yaml expands cases."
   }
 ]
