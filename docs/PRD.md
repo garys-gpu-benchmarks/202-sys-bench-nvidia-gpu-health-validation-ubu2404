@@ -21,7 +21,7 @@ Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second a
 Analyze GPU CUDA runtime environment health
 
 ## Validation Objective
-Validates GPU visibility, temperature, PCIe width/speed, and dmesg Xid mentions. Does not run DCGM, deviceQuery, or CUDA context creation
+Validates GPU visibility, temperature, PCIe width/speed, and dmesg Xid mentions
 
 ## Workload Category
 System Validation & Reliability
