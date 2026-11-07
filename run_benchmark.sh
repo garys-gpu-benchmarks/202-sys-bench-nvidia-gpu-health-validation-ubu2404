@@ -16,12 +16,11 @@ capture_benchmark_run_command_submitted "$@"
 
 usage() {
   cat <<'USAGE'
+
 Usage: bash run_benchmark.sh [OPTIONS]
 
 Workload Name:          NVIDIA System Validation (clocks, temperature, etc.).
 Main Goal:              Analyze GPU CUDA runtime environment health.
-Validation Objective:   Validates GPU visibility, temperature, PCIe width/speed, and dmesg Xid
-                        mentions.
 Command Tools Executed: Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg.
 
 Profiles (default: --smoke):
