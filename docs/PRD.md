@@ -15,13 +15,13 @@ This PRD.md section is populated from benchmark_specification.json, which is the
 NVIDIA System Validation (clocks, temperature, etc.)
 
 ## Execution Summary (Run and Measure)
-Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health
+Run nvidia-smi --query-gpu and nvidia-smi -L once per second for monitor_duration_sec, and dmesg at the start and end, then report peak GPU temperature, the narrowest PCIe link, the fewest visible devices, and NVRM Xid lines, to measure GPU health
 
 ## Main Goal
 Analyze GPU CUDA runtime environment health
 
 ## Validation Objective
-Validates GPU visibility, temperature, PCIe width/speed, and dmesg Xid mentions
+Validates CUDA device visibility against expected_gpu_count, PCIe link width against min_pcie_link_width, PCIe speed, peak temperature over the monitor window, and NVRM Xid lines in dmesg
 
 ## Workload Category
 System Validation & Reliability

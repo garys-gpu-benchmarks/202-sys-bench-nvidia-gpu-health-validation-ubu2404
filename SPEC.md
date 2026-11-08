@@ -2,11 +2,15 @@
 
 ## Execution Description
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches Sweep dimensions: no swept parameters.
+Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1). min_pcie_link_width: narrowest acceptable PCIe link, in lanes, on every GPU; narrower fails the run (16) Sweep dimensions: monitor_duration_sec, expected_gpu_count, min_pcie_link_width.
 
 ## Parameters
 
-No workbook parameters are populated for this workload.
+| Parameter | CLI Flag | Tested Values | Default | Description |
+| --- | --- | --- | --- | --- |
+| monitor_duration_sec | `--monitor-duration-sec` | smoke=5, baseline=200, extended=580 | 200 | From Parameter list; see Execution Description With Parameters. |
+| expected_gpu_count | `--expected-gpu-count` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
+| min_pcie_link_width | `--min-pcie-link-width` | smoke=16, baseline=16, extended=16 | 16 | From Parameter list; see Execution Description With Parameters. |
 
 ## Invocation
 
@@ -16,10 +20,10 @@ Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg
 
 ## Raw Output Format
 
-CSV aggregate plus the dmesg transcript. A single row is duplicated to two samples
+CSV with one row per one-second sample, plus dmesg.txt and the first and last nvidia-smi -q
 
-sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devices_visible,pcie_link_width_lanes,pcie_link_speed_gt_s,error_message
-0,ok,0,42,1,16,32,
+sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devices_visible,pcie_link_width_lanes,pcie_link_speed_gt_s,window_new_xid_count,sample_elapsed_s,sample_gpu_temperature_c,sample_cuda_devices_visible,sample_pcie_link_width_lanes,sample_pcie_link_speed_gt_s,error_message
+0,ok,0,42,1,16,32,0,0.0,41,1,16,32,
 
 ## Metrics
 
@@ -31,11 +35,11 @@ sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devi
 
 ## Framework
 
-Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1).
 
 ## Installation and Execution Summary
 
-Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg twice about one second apart, then parse GPU temperature, PCIe width/speed, visible device count, and case-insensitive dmesg Xid matches, to measure GPU health
+Run nvidia-smi --query-gpu and nvidia-smi -L once per second for monitor_duration_sec, and dmesg at the start and end, then report peak GPU temperature, the narrowest PCIe link, the fewest visible devices, and NVRM Xid lines, to measure GPU health
 
 ## Platform Portability
 
@@ -72,10 +76,10 @@ BENCHMARK_DB=tests/fixtures/benchmark.db \
 
 ### Run artifact contract
 
-CSV aggregate plus the dmesg transcript. A single row is duplicated to two samples
+CSV with one row per one-second sample, plus dmesg.txt and the first and last nvidia-smi -q
 
-sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devices_visible,pcie_link_width_lanes,pcie_link_speed_gt_s,error_message
-0,ok,0,42,1,16,32,
+sample_index,status,dmesg_nvidia_gpu_fault_xid_count,gpu_temperature_c,cuda_devices_visible,pcie_link_width_lanes,pcie_link_speed_gt_s,window_new_xid_count,sample_elapsed_s,sample_gpu_temperature_c,sample_cuda_devices_visible,sample_pcie_link_width_lanes,sample_pcie_link_speed_gt_s,error_message
+0,ok,0,42,1,16,32,0,0.0,41,1,16,32,
 
 ```bash
 bash run_benchmark.sh --help
@@ -91,10 +95,10 @@ bash run_benchmark.sh --extended
 2. `run.error_message` is NULL.
 3. `started_at` and `finished_at` are valid ISO-8601 UTC strings.
 4. All required aggregate metrics in `runs` are non-NULL and finite.
-5. All required aggregate metrics are physically sensible (positive values). Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+5. All required aggregate metrics are physically sensible (positive values). Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1).
 6. At least 2 sample rows exist for the latest `run_id` (sweep coverage).
 7. No sample has `status = 'error'`.
-8. Polls NVIDIA GPU health twice (~1 s apart) from nvidia-smi and dmesg. Every run records device count, GPU temperature, PCIe width/speed, and case-insensitive dmesg 'xid' matches
+8. Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1).
 
 ### Baseline / Threshold configuration (`config/benchmark_config.yaml`)
 

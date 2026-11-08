@@ -20,12 +20,20 @@ bash run_benchmark.sh --smoke
 
 ## Profiles and Parameters
 
-This workload has no tunable parameters. Pick a profile with `--smoke` (default), `--baseline` or `--extended`:
+| Parameter | Flag | smoke | baseline | extended |
+|---|---|---|---|---|
+| `monitor_duration_sec` | `--monitor-duration-sec` | 5 | 200 | 580 |
+| `expected_gpu_count` | `--expected-gpu-count` | 1 | 1 | 1 |
+| `min_pcie_link_width` | `--min-pcie-link-width` | 16 | 16 | 16 |
+
+Pick a profile with `--smoke` (default), `--baseline` or `--extended`. Any flag in the table overrides that profile's value:
 
 ```bash
-bash run_benchmark.sh --baseline
+bash run_benchmark.sh --baseline --expected-gpu-count 2
 bash run_benchmark.sh --help        # every option
 ```
+
+Profile values live in `config/benchmark_config.yaml`.
 
 ## Metrics
 
@@ -40,9 +48,9 @@ bash run_benchmark.sh --help        # every option
 ### Notes
 
 - The smoke profile is a quick check with reduced sizes and iteration counts. Use `--baseline` or `--extended` for representative numbers.
-- PCIe speed may parse as 0.
-- DCGM and deviceQuery are not used.
-- Xid count is a dmesg substring match, not a live fault detector.
+- Xid count is na where dmesg is blocked, as in containers.
+- Temperature is idle unless other work runs.
+- A width or device check that cannot read its value is skipped and noted, not failed.
 
 ## Output
 
@@ -58,7 +66,7 @@ Every run is checked for completeness and against any `thresholds:` or `baseline
 ## Requirements
 
 - Ubuntu 24.04, root or sudo for `setup.sh`
-- NVIDIA GPU with CUDA 12.6 (validated on H100 SXM 80GB)
+- NVIDIA GPU with CUDA 12.6
 - nvidia-smi, Python 3.12. `setup.sh` installs what is missing; Python packages go into a repo-local `.venv`.
 
 ## Run the Whole Bundle
