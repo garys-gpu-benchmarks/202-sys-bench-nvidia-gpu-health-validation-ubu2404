@@ -40,6 +40,11 @@
     "value": "Run nvidia-smi, nvidia-smi -q, nvidia-smi -L, and dmesg"
   },
   {
+    "field_name": "Execution Description With Parameters",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1). min_pcie_link_width: narrowest acceptable PCIe link, in lanes, on every GPU; narrower fails the run (16)"
+  },
+  {
     "field_name": "Metrics",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "#1: GPU fault/Xid count (dmesg_nvidia_gpu_fault_xid_count); #2: GPU temperature (gpu_temperature_c); #3: PCIe link width, lanes (pcie_link_width_lanes); #4: PCIe link speed, GT/s (pcie_link_speed_gt_s); #5: CUDA devices visible (cuda_devices_visible)"
@@ -173,11 +178,6 @@
     "field_name": "Command Methodology",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "Poll nvidia-smi --query-gpu (every GPU) and nvidia-smi -L once per second for monitor_duration_sec. Keep the peak temperature, the narrowest link width and slowest speed, and the fewest devices seen. Fail when fewer than expected_gpu_count devices or a link narrower than min_pcie_link_width appears. DCGM and deviceQuery are not run"
-  },
-  {
-    "field_name": "Execution Description With Parameters",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Samples NVIDIA GPU health once per second from nvidia-smi and counts NVRM Xid lines in dmesg since boot. monitor_duration_sec: seconds to keep sampling; temperature is the peak over the window (smoke 5 / baseline 200 / extended 580). expected_gpu_count: fewest CUDA devices that must stay visible; fewer fails the run (1). min_pcie_link_width: narrowest acceptable PCIe link, in lanes, on every GPU; narrower fails the run (16)"
   },
   {
     "field_name": "Execution Domain",
